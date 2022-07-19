@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div id="app">
+
+        <div class="content">
+            <h1 v-if="!winner" class="title">Add a information</h1>
+            <h1 v-else class="title">Winner</h1>
+            <div v-if="!winner" class="content-forms">
+                <input type="text" v-model="el">
+                <button class="add" v-on:click="add">Add</button>
+                <p v-if="hasError" class="error">Iltimos, 3ta harfdan kam bo'lamagan so'z kiriting!</p>
+                <h2 v-if="lists.length >=1" class="lists"> informations <span>({{ lists.length}})</span> </h2>
+            </div>
+            <div v-if="!winner" class="full">
+                <div class="output" v-for="(element,index) in lists">
+                    <p class="index"> {{index + 1}} </p>
+                    <input v-if="edit && index == currentIndex" autofocus class="input" type="text" v-model="lists[index]" >
+                    <p v-else v-on:dblclick="editItem(index)" class="element"> {{element}} </p>
+
+                    <div class="subs">
+                        <i class="fa-solid fa-circle-minus delete" v-on:click="deleteItem(index)" title="Delete list"></i>
+                        <button v-if="edit && index == currentIndex" class="saveBtn" v-on:click="saveItem(index)">Save</button>
+                        <i v-else class="fa-solid fa-pen edit" v-on:click="editItem(index)" title="Edit list"></i>
+                    </div>
+                </div>
+            </div>
+            <div v-if="winner" class="new-content"> {{ winner }}</div>
+            <button v-if="lists.length >= 3 && !winner" class="see" v-on:click="generate">Generate</button>
+            <button v-if="winner" class="try" v-on:click="tryAgain">Try again</button>
+        </div>
+    </div>
+
+    
+    <script src="./vue.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
